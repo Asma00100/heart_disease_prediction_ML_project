@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiovascular Disease Detection</title>
+</head>
+<body>
+    <h1>Input Data for Machine Learning Model</h1>
+    
+    <form action="/predict" method="post">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+        </select>
+        <br><br>
+
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" name="height" step="0.1" required>
+        <br><br>
+
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" step="0.1" required>
+        <br><br>
+
+        <label for="ap_hi">Systolic Blood Pressure (ap_hi):</label>
+        <input type="number" id="ap_hi" name="ap_hi" required>
+        <br><br>
+
+        <label for="ap_lo">Diastolic Blood Pressure (ap_lo):</label>
+        <input type="number" id="ap_lo" name="ap_lo" required>
+        <br><br>
+
+        <label for="cholesterol">Cholesterol:</label>
+        <select id="cholesterol" name="cholesterol">
+            <option value="1">Normal</option>
+            <option value="2">Above Normal</option>
+            <option value="3">Well Above Normal</option>
+        </select>
+        <br><br>
+
+        <label for="gluc">Glucose:</label>
+        <select id="gluc" name="gluc">
+            <option value="1">Normal</option>
+            <option value="2">Above Normal</option>
+            <option value="3">Well Above Normal</option>
+        </select>
+        <br><br>
+
+        <label for="smoke">Smoke:</label>
+        <select id="smoke" name="smoke">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+        <br><br>
+
+        <label for="alco">Alcohol Intake:</label>
+        <select id="alco" name="alco">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+        <br><br>
+
+        <label for="active">Physical Activity:</label>
+        <select id="active" name="active">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+        <br><br>
+
+        <label for="age_years">Age (years):</label>
+        <input type="number" id="age_years" name="age_years" required>
+        <br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    <h2>Prediction Result:</h2>
+    <div id="result"></div>
+
+    <script>
+        document.querySelector("form").onsubmit = async function(event) {
+            event.preventDefault();  // Prevent form submission
+            
+            let formData = new FormData(event.target);
+            let response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            document.getElementById("result").innerText = 
+                result.error ? "Error: " + result.error : "Prediction: " + result.prediction;
+        };
+    </script>
+</body>
+</html>
